@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Chaos Simulation Program
+ * Copyright 2012, Michael Deakin
+ * This program and all code included is liscenced under LGPL v3
+ * */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
