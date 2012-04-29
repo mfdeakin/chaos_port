@@ -78,8 +78,12 @@ namespace chaos_port
             time_txt.Text = "" + 0;
             xvar.Items.Clear();
             xvar.Items.Add("Time");
+            xvar.SelectedItem = xvar.Items[0];
             yvar.Items.Clear();
             yvar.Items.Add("Time");
+            yvar.SelectedItem = yvar.Items[0];
+            xval = "Time";
+            yval = "Time";
             values.Clear();
             if (sim != null)
             {
@@ -99,6 +103,7 @@ namespace chaos_port
                     txt.TextChanged += new EventHandler(var_textchange);
                 }
                 gpane.Title.Text = sim.name;
+                graph.Refresh();
             }
         }
 
@@ -123,6 +128,7 @@ namespace chaos_port
             else
             {
                 run_btn.Text = "Pause";
+                prog.Enabled = false;
                 point_txt.Enabled = false;
                 simthread.RunWorkerAsync();
             }
@@ -160,6 +166,7 @@ namespace chaos_port
         {
             run_btn.Text = "Run";
             point_txt.Enabled = true;
+            prog.Enabled = true;
         }
 
         private void var_textchange(object sender, EventArgs e)

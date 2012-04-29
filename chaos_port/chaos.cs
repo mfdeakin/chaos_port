@@ -18,6 +18,7 @@ namespace chaos_port
             Application.SetCompatibleTextRenderingDefault(false);
             chaos_frm frm = new chaos_frm();
             frm.addchoice(new petersim());
+            frm.addchoice(new kepler());
             Application.Run(frm);
         }
     }
@@ -35,14 +36,122 @@ namespace chaos_port
         public string name;
     }
 
+    public class kepler : simulator
+    {
+        public kepler()
+        {
+            name = "Kepler";
+            mean = 2.36;
+            f = 0;
+            //Eccentricity
+            e = 0.595;
+            //Previous Eccentricity
+            ep = 0.595;
+            //?
+            fp = 0;
+            //??
+            fpp = 0;
+        }
+
+        public override void step()
+        {
+            ep = e;
+            f = e - mean - Math.E / 5 * Math.Sin(e);
+            fp = 1 - Math.E / 5 * Math.Cos(e);
+            fpp = Math.E / 5 * Math.Sin(e);
+            e -= f / fp * (1 + 0.5 * (f / fp) * (fpp / fp));
+            time++;
+        }
+
+        public double mean
+        {
+            get
+            {
+                return this["Mean Anomaly"];
+            }
+            set
+            {
+                this["Mean Anomaly"] = value;
+            }
+        }
+
+        public double f
+        {
+            get
+            {
+                return this["f"];
+            }
+            set
+            {
+                this["f"] = value;
+            }
+        }
+
+        public double fp
+        {
+            get
+            {
+                return this["fp"];
+            }
+            set
+            {
+                this["fp"] = value;
+            }
+        }
+
+        public double fpp
+        {
+            get
+            {
+                return this["fpp"];
+            }
+            set
+            {
+                this["fpp"] = value;
+            }
+        }
+
+        public double e
+        {
+            get
+            {
+                return this["e"];
+            }
+            set
+            {
+                this["e"] = value;
+            }
+        }
+
+        public double ep
+        {
+            get
+            {
+                return this["ep"];
+            }
+            set
+            {
+                this["ep"] = value;
+            }
+        }
+
+    }
+
     public class petersim : simulator
     {
         public petersim()
         {
             name = "Peter Map";
-            this["p"] = 0;
-            this["q"] = Math.PI / 4;
-            this["c"] = 1.8;
+            p = 0;
+            q  = Math.PI / 4;
+            c = 1.8;
+        }
+
+        public override void step()
+        {
+            p += -q + c * Math.Sin(q);
+            q += p;
+            time++;
         }
 
         public double p
@@ -82,13 +191,6 @@ namespace chaos_port
                 this["c"] = value;
             }
 
-        }
-
-        public override void step()
-        {
-            p += -q + c * Math.Sin(q);
-            q += p;
-            time++;
         }
     }
 }
